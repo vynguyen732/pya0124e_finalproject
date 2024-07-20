@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="khohang_list_view" model="ir.ui.view">
+            <field name="name">khohang_list_view</field>
+            <field name="model">khohang</field>
+            <field name="arch" type="xml">
+                <tree string = 'Danh sách thiết bị'
+                      decoration-success="trangthai == 'dacai'" decoration-danger="trangthai == 'loi'" decoration-info="trangthai == 'dadat'" decoration-bf="trangthai == 'sansang'" decoration-warning="trangthai == 'thuhoi'">
+                    <field name="mathietbi"/>
+                    <field name="loaihang"/>
+                    <field name="phienban" optional="hide"/>
+                    <field name="trangthai" widget="badge"/>
+                    <field name="ngaynhap" optional="hide"/>
+                    <field name="ngayxuat" optional="hide"/>
+                    <field name="khachhangsudung"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="khohang_form_view" model="ir.ui.view">
+            <field name="name">khohang_form_view</field>
+            <field name="model">khohang</field>
+            <field name="arch" type="xml">
+                <form string="Thông tin thiết bị">
+                    <header>
+                        <button name="action_sansang" string="Chuyển sang Sẵn sàng" type="object" class="btn-primary" invisible="trangthai not in ['dadat','dacai']"/>
+                        <button name="action_dadat" string="Chuyển sang Đặt hàng" type="object" class="btn-primary" invisible="trangthai not in ['sansang','dacai']"/>
+                        <button name="action_dacai" string="Chuyển sang Đã cài đặt" type="object" class="btn-primary" invisible="trangthai not in ['sansang','dadat']"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="mathietbi"/>
+                                <field name="loaihang" widget="radio" options="{'horizontal': True}"/>
+                                <field name="phienban" widget="radio" options="{'horizontal': True}"/>
+                                <field name="trangthai"/>
+                                <field name="dongiathue"/>
+                            </group>
+                            <group>
+                                <field name="ngaynhap"/>
+                                <field name="ngayxuat"/>
+                                <field name="khachhangsudung" domain="[('makhachhang','!=',False),('trangthai','=','hoatdong')]"
+                                        options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="khohang_search_view" model="ir.ui.view">
+            <field name="name">khohang_search_view</field>
+            <field name="model">khohang</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm thiết bị">
+                    <field name="mathietbi"/>
+                    <field name="khachhangsudung" domain="[('makhachhang','!=',False),('trangthai','=','hoatdong')]"/>
+                    <filter string="Thiết bị đang có sẵn" name="filter_khohang_sansang" domain="[('trangthai','=','sansang')]"/>
+                    <filter string="Thiết bị đã được thuê" name="filter_khohang_dacai" domain="[('trangthai','=','dacai')]"/>
+                    <filter string="Thiết bị đang gặp lỗi" name="filter_khohang_loi" domain="[('trangthai','=','loi')]"/>
+                    <filter string="Thiết bị sắp cài đặt" name="filter_khohang_dadat" domain="[('trangthai','=','dadat')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Loại hàng" name="group_by_loaihang" context="{'group_by':'loaihang'}"/>
+                        <filter string="Phiên bản" name="group_by_phienban" context="{'group_by':'phienban'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="khohang_menu_action" model="ir.actions.act_window">
+            <field name="name">Danh sách thiết bị</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">khohang</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create': True}</field>
+        </record>
+
+        <menuitem id="menu_root_khohang" name="Quản lý thiết bị và khách hàng" sequence="1"/>
+        <menuitem id="menu_child_thietbi" parent="kho_hang.menu_root_khohang" action="kho_hang.khohang_menu_action" name="Tổng quan thiết bị" sequence="1"/>
+        <menuitem id="menu_child_khothietbi" parent="kho_hang.menu_child_thietbi" action="kho_hang.khohang_menu_action" name="Kho thiết bị" sequence="1"/>
+
+    </data>
+</odoo>

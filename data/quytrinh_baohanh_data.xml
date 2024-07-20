@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="quytrinh_baohanh_giaidoan_thuhoi" model="quytrinh_baohanh_giaidoan">
+            <field name="name">Thu hồi thiết bị</field>
+            <field name="sequence">1</field>
+    </record>
+    <record id="quytrinh_baohanh_giaidoan_suachua" model="quytrinh_baohanh_giaidoan">
+            <field name="name">Sửa chữa thiết bị</field>
+            <field name="sequence">2</field>
+    </record>
+    <record id="quytrinh_baohanh_giaidoan_giaothietbi" model="quytrinh_baohanh_giaidoan">
+            <field name="name">Kiểm tra thiết bị</field>
+            <field name="sequence">3</field>
+    </record>
+    <record id="quytrinh_baohanh_giaidoan_kiemtra" model="quytrinh_baohanh_giaidoan">
+            <field name="name">Giao thiết bị cho khách hàng/ nhập kho</field>
+            <field name="sequence">4</field>
+    </record>
+    <record id="quytrinh_baohanh_giaidoan_hoantat" model="quytrinh_baohanh_giaidoan">
+            <field name="name">Hoàn tất</field>
+            <field name="sequence">5</field>
+    </record>
+</odoo>

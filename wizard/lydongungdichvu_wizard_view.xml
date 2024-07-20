@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="lydongungdichvu_wizard_form_view" model="ir.ui.view">
+            <field name="name">lydongungdichvu_wizard_form_view</field>
+            <field name="model">lydongungdichvu_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Lý do ngừng sử dụng dịch vụ">
+                    <group>
+                        <field name="lydo"/>
+                    </group>
+                    <footer>
+                        <button name="action_ngungdichvu" string="Lưu" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="lydongungdichvu_wizard_action" model="ir.actions.act_window">
+            <field name="name">Lý do ngừng sử dụng dịch vụ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lydongungdichvu_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

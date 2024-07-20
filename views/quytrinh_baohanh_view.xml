@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="quytrinh_baohanh_kanban_view" model="ir.ui.view">
+            <field name="name">quytrinh_baohanh_kanban_view</field>
+            <field name="model">quytrinh_baohanh</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" default_group_by="giaidoan_ids">
+                    <field name="madonbaohanh"/>
+                    <field name="thietbi_ids"/>
+                    <field name="khachhang_ids"/>
+                    <field name="nhanvien_ids"/>
+                    <field name="lydosuachua"/>
+                    <field name="ngaytiepnhan"/>
+                    <field name="ngaydukienhoanthanh"/>
+                    <field name="ngayconlai"/>
+                    <field name="kiemtra" invisible="giaidoan_ids in [1,2]"/>
+                    <field name="mucdouutien"/>
+                    <field name="giaidoan_ids" invisible="True"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click o_kanban_card">
+                                <div class="oe_kanban_details">
+                                    <strong><t t-esc="record.madonbaohanh.value"/></strong>
+                                    <div><field name="thietbi_ids" widget="badge"/></div>
+                                    <div><field name="khachhang_ids"/></div>
+                                    <div><field name="nhanvien_ids"/></div>
+                                    <div>
+                                        <strong style="color: red;"><field name="ngayconlai"/></strong>
+                                    </div>
+                                    <div><field name="mucdouutien" widget="priority"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="quytrinh_baohanh_form_view" model="ir.ui.view">
+            <field name="name">quytrinh_baohanh_form_view</field>
+            <field name="model">quytrinh_baohanh</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="giaidoan_ids" widget="statusbar" options="{'clickable':'True'}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="madonbaohanh"/>
+                                <field name="thietbi_ids" domain="[('trangthai','=','dacai')]" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                                <field name="khachhang_ids"/>
+                                <field name="nhanvien_ids"/>
+                                <field name="giaidoan_ids" invisible="True"/>
+                            </group>
+                            <group>
+                                <field name="ngaytiepnhan"/>
+                                <field name="ngaydukienhoanthanh"/>
+                                <field name="ngayconlai" readonly="True"/>
+                                <field name="lydosuachua"/>
+                                <field name="kiemtra" invisible="giaidoan_ids in [1,2]" widget="radio" options="{'horizontal': True}"/>
+                                <field name="mucdouutien" groups="kho_hang.group_kho_hang_nvthietbi"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Mô tả">
+                                <field name="mota"/>
+                            </page>
+                            <page string="Ghi chú">
+                                <field name="ghichu"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="quytrinh_baohanh_menu_action" model="ir.actions.act_window">
+            <field name="name">Quy trình bảo hành</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quytrinh_baohanh</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+
+        <menuitem id="menu_root_hoatdong" parent="kho_hang.menu_root_khohang" action="kho_hang.quytrinh_baohanh_menu_action" name="Hoạt động" sequence="3"/>
+        <menuitem id="menu_child_quytrinhbaohanh" parent="kho_hang.menu_root_hoatdong" action="kho_hang.quytrinh_baohanh_menu_action" name="Quy trình bảo hành" sequence="1"/>
+
+    </data>
+</odoo>

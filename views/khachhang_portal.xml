@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="khachhang_portal_info" name="Customer Portal">
+                <div id="wrap">
+                    <t t-if="tenkhachhang">
+                        <div id="event_track_proposal_additional_contact_section">
+                            <table>
+                                <tr>
+                                    <td>Tên khách hàng</td>
+                                    <td>Điện thoại</td>
+                                    <td>Thiết bị đang dùng</td>
+                                    <td>Nhân viên phụ trách</td>
+                                </tr>
+                                <tr>
+                                    <td><t t-esc="tenkhachhang"/></td>
+                                    <td><t t-esc="sodienthoai"/></td>
+                                    <td><t t-esc="thietbisudung"/></td>
+                                    <td><t t-esc="nhanvienphutrach"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        Customer not found !
+                    </t>
+                </div>
+        </template>
+    </data>
+</odoo>

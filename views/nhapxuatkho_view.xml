@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="nhapxuatkho_list_view" model="ir.ui.view">
+            <field name="name">nhapxuatkho_list_view</field>
+            <field name="model">nhapxuatkho</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="loaivankho == 'nhapkho'" decoration-danger="loaivankho == 'xuatkho'">
+                    <field name="mavankho"/>
+                    <field name="loaivankho" widget="badge"/>
+                    <field name="ngaythuchien"/>
+                    <field name="mathietbi"/>
+                    <field name="khachhang_ids" widget="badge" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="nhapxuatkho_form_view" model="ir.ui.view">
+            <field name="name">nhapxuatkho_form_view</field>
+            <field name="model">nhapxuatkho</field>
+            <field name="arch" type="xml">
+                <form string="Chi tiết nhập/ xuất kho">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="mavankho"/>
+                                <field name="loaivankho" widget="radio" options="{'horizontal': True}"/>
+                                <field name="lydonhapkho"/>
+                                <field name="lydoxuatkho"/>
+                            </group>
+                            <group>
+                                <field name="mathietbi"/>
+                                <field name="ngaythuchien"/>
+                                <field name="khachhang_ids" domain="[('makhachhang','!=',False)]" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="nhapxuatkho_search_view" model="ir.ui.view">
+            <field name="name">nhapxuatkho_search_view</field>
+            <field name="model">nhapxuatkho</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm lịch sử nhập/ xuất kho">
+                    <field name="mavankho"/>
+                    <field name="mathietbi"/>
+                    <filter string="Nhập kho lần đầu" name="filter_nhapxuatkho_nhaplandau" domain="[('lydonhapkho','=','nhaplandau')]"/>
+                    <filter string="Nhập kho do khách hàng ngừng dịch vụ" name="filter_nhapxuatkho_ngungdichvu" domain="[('lydonhapkho','=','ngungdichvu')]"/>
+                    <filter string="Xuất kho cho khách hàng" name="filter_nhapxuatkho_chokhachhang" domain="[('lydoxuatkho','=','chokhachhang')]"/>
+                    <filter string="Xuất kho cho nhà sản xuất" name="filter_nhapxuatkho_chonhasanxuat" domain="[('lydoxuatkho','=','chonhasanxuat')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Loại vận kho" name="group_by_loaivankho" context="{'group_by':'loaivankho'}"/>
+                        <filter string="Ngày thực hiện" name="group_by_ngaythuchien" context="{'group_by':'ngaythuchien'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="nhapxuatkho_menu_action" model="ir.actions.act_window">
+            <field name="name">Lịch sử nhập xuất kho</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">nhapxuatkho</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create': True}</field>
+        </record>
+
+        <menuitem id="menu_child_nhapxuatkho" parent="kho_hang.menu_child_thietbi" action="kho_hang.nhapxuatkho_menu_action" name="Nhập xuất kho" sequence="2"/>
+
+    </data>
+</odoo>

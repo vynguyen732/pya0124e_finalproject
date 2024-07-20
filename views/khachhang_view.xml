@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="khachhang_list_view" model="ir.ui.view">
+            <field name="name">khachhang_list_view</field>
+            <field name="model">khachhang</field>
+            <field name="arch" type="xml">
+                <tree string = 'Danh sách khách hàng'
+                    decoration-info="trangthai == 'hoatdong'" decoration-muted="trangthai == 'ngung'">
+                    <field name="tenkhachhang"/>
+                    <field name="makhachhang" widget="badge"/>
+                    <field name="sodienthoai"/>
+                    <field name="diachi"/>
+                    <field name="email" widget="email"/>
+                    <field name="trangthai" widget="badge"/>
+                    <field name="nhanvienchamsoc" widget="badge"/>
+                    <field name="ngaybatdau" optional="hide"/>
+                    <field name="thoigianloyalty" optional="hide" readonly="True"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="khachhang_form_view" model="ir.ui.view">
+            <field name="name">khachhang_form_view</field>
+            <field name="model">khachhang</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="%(kho_hang.lydongungdichvu_wizard_action)d" string="Ngừng dịch vụ" type="action" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="tenkhachhang"/>
+                                <field name="makhachhang"/>
+                                <field name="sodienthoai"/>
+                                <field name="diachi"/>
+                                <field name="email" widget="email"/>
+                                <field name="website" widget="CopyClipboardChar"/>
+                            </group>
+                            <group>
+                                <field name="trangthai"/>
+                                <field name="nhanvienchamsoc"/>
+                                <field name="ngaybatdau"/>
+                                <field name="ngayketthuc"/>
+                                <field name="lydoketthuc"/>
+                                <field name="thoigianloyalty" readonly="True"/>
+                                <field name="chiphi" readonly="True"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string = 'Thiết bị đang sử dụng'>
+                                <field name = 'thietbisudung' readonly = 'True'>
+                                    <tree>
+                                        <field name = 'mathietbi' widget="badge"/>
+                                        <field name = 'loaihang'/>
+                                        <field name = 'phienban'/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string = 'Hợp đồng thuê thiết bị đã ký'>
+                                <field name = 'khachhang_hopdongthue' readonly= 'True'>
+                                    <tree>
+                                        <field name = 'mahopdong'/>
+                                        <field name = 'ngaybatdauthue'/>
+                                        <field name = 'thoihan'/>
+                                        <field name = 'giatri'/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string = 'Ghi chú nội bộ'>
+                                <field name = 'ghichu'/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="khachhang_search_view" model="ir.ui.view">
+            <field name="name">khachhang_search_view</field>
+            <field name="model">khachhang</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm khách hàng">
+                    <field name="tenkhachhang"/>
+                    <field name="makhachhang"/>
+                    <field name="email"/>
+                    <filter string="Khách hàng đang sử dụng dịch vụ" name="filter_khachhang_hoatdong" domain="[('trangthai','=','hoatdong')]"/>
+                    <filter string="Khách hàng đã ngừng sử dụng dịch vụ" name="filter_khachhang_ngung" domain="[('trangthai','=','ngung')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Nhân viên phụ trách" name="group_by_nhanvienchamsoc" context="{'group_by':'nhanvienchamsoc'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="khachhang_menu_action" model="ir.actions.act_window">
+            <field name="name">Danh sách khách hàng</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">khachhang</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_child_khachhang" parent="kho_hang.menu_root_khohang" action="kho_hang.khachhang_menu_action" name="Khách hàng" sequence="2"/>
+        <menuitem id="menu_child_danhsachkhachhang" parent="kho_hang.menu_child_khachhang" action="kho_hang.khachhang_menu_action" name="Danh sách khách hàng" sequence="1"/>
+
+    </data>
+</odoo>

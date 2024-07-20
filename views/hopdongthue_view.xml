@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hopdongthue_list_view" model="ir.ui.view">
+            <field name="name">hopdongthue_list_view</field>
+            <field name="model">hopdongthue</field>
+            <field name="arch" type="xml">
+                <tree string = 'Danh sách hợp đồng thuê thiết bị'
+                    decoration-success="tinhtrang == 'dangthue'" decoration-warning="tinhtrang == 'hethan'">
+                    <field name="mahopdong"/>
+                    <field name="benb" widget="badge"/>
+                    <field name="ngayketthucthue"/>
+                    <field name="thoihan" optional="hide"/>
+                    <field name="giayto" optional="hide"/>
+                    <field name="tinhtrang" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hopdongthue_form_view" model="ir.ui.view">
+            <field name="name">hopdongthue_form_view</field>
+            <field name="model">hopdongthue</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="mahopdong"/>
+                                <field name="ngaybatdauthue"/>
+                                <field name="ngayketthucthue"/>
+                                <field name="bena" readonly="True"/>
+                                <field name="benb" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                            </group>
+                            <group>
+                                <field name="thoihan"/>
+                                <field name="giatri"/>
+                                <field name="giayto"/>
+                                <field name="tinhtrang"/>
+                                <field name="nhanvien_id" readonly="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hopdongthue_search_view" model="ir.ui.view">
+            <field name="name">hopdongthue_search_view</field>
+            <field name="model">hopdongthue</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm hợp đồng thuê thiết bị">
+                    <field name="mahopdong"/>
+                    <field name="benb"/>
+                    <filter string="Hợp đồng đang trong thời hạn" name="filter_hopdongthue_dangthue" domain="[('tinhtrang','=','dangthue')]"/>
+                    <filter string="Hợp đồng đã kết thúc" name="filter_hopdongthue_hethan" domain="[('tinhtrang','=','hethan')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Khách hàng (bên B)" name="group_by_benb" context="{'group_by':'benb'}"/>
+                        <filter string="Thời hạn thuê" name="group_by_thoihan" context="{'group_by':'thoihan'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hopdongthue_menu_action" model="ir.actions.act_window">
+            <field name="name">Danh sách hợp đồng thuê thiết bị</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hopdongthue</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_child_hopdongthue" parent="kho_hang.menu_child_khachhang" action="kho_hang.hopdongthue_menu_action" name="Danh sách hợp đồng thuê thiết bị" sequence="2"/>
+
+
+    </data>
+</odoo>
